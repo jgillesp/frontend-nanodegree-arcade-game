@@ -1,14 +1,11 @@
-var enemyCollision = false;
-
 // Enemies our player must avoid
-var Enemy = function(x, y, dt, speed) {
+var Enemy = function(x, y, speed) {
     // The image/sprite for our enemies
     this.sprite = 'images/enemy-bug.png';
     //x position for our enemy
     this.x = x;
     //y position for our enemy
     this.y = y;
-    this.dt = dt;
     //speed for our enemy
     this.speed = speed;
 };
@@ -22,16 +19,14 @@ Enemy.prototype.update = function(dt, speed) {
     }
     this.x = this.x + this.speed * dt;
 //bounding box for collision detection
-  if (this.x < player.x + 85 &&
+  if (this.x < player.x + 50 &&
+    //left side of player
    this.x + 85 > player.x &&
-   this.y < player.y + 85 &&
+   this.y < player.y + 50 &&
+   //top to player
    85 + this.y > player.y) {
-        enemyCollision = true;
+        //enemyCollision = true;
         this.collision();
-}
-    else {
-        //set collision flag to false?
-        enemyCollision = false;
     }
 };
 
@@ -45,8 +40,6 @@ Enemy.prototype.collision = function() {
     //reset player position
     player.x = 200;
     player.y = 400;
-    //reset flag to false
-    enemyCollision = false;
     //take away a heart
     var popHeart = allHearts.pop();
         //check if hearts = 0
@@ -57,10 +50,6 @@ Enemy.prototype.collision = function() {
         createHearts();
     }
 };
-
-// Now write your own player class
-// This class requires an update(), render() and
-// a handleInput() method.
 
 //Player class
 var Player = function(x, y) {
@@ -129,6 +118,7 @@ document.addEventListener('keyup', function(e) {
     player.handleInput(allowedKeys[e.keyCode]);
 });
 
+//Heart function that takes in x and y coordinates and gets the heart image
 var Heart = function(x, y) {
     this.sprite = 'images/Heart.png';
     this.x = x;
@@ -153,10 +143,10 @@ var createHearts = function() {
     allHearts.push(heart3);
 };
 
-// Now instantiate enemy objects and sets position, dt, and speed.
-var enemy1 = new Enemy(-101, 65, 50, 80);
-var enemy2 = new Enemy(-101, 140, 50, 100);
-var enemy3 = new Enemy(-101, 220, 50, 60);
+// Instantiates enemy objects and sets position and speed.
+var enemy1 = new Enemy(-101, 65, 80);
+var enemy2 = new Enemy(-101, 140, 100);
+var enemy3 = new Enemy(-101, 220, 60);
 
 // Place all enemy objects in an array called allEnemies
 var allEnemies = [];
